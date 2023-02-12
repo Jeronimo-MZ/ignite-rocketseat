@@ -1,0 +1,30 @@
+.repositoryList {
+    margin: 4rem;
+
+    h1 {
+        margin-bottom: 1.6rem;
+    }
+
+    ul {
+        list-style-type: none;
+
+        li {
+            & + li {
+                margin-top: 2rem;
+            }
+
+            p {
+                font-size: 1.4rem;
+                color: #444;
+                margin-top: 0.8rem;
+            }
+
+            a {
+                display: inline-block;
+                margin-top: 1.6rem;
+                text-decoration: none;
+                color: #8257e6;
+            }
+        }
+    }
+}
