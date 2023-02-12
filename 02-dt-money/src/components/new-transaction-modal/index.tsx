@@ -1,4 +1,5 @@
 import ReactModal from "react-modal";
+import { Container } from "./styles";
 
 ReactModal.setAppElement("#root");
 
@@ -12,8 +13,19 @@ export function NewTransactionModal({
     onRequestClose,
 }: NewTransactionModalProps) {
     return (
-        <ReactModal isOpen={isOpen} onRequestClose={onRequestClose}>
-            <h1>Modal</h1>
+        <ReactModal
+            isOpen={isOpen}
+            onRequestClose={onRequestClose}
+            overlayClassName="react-modal-overlay"
+            className="react-modal-content"
+        >
+            <Container>
+                <h2>Cadastrar Transação</h2>
+                <input type="text" placeholder="Título" />
+                <input type="number" placeholder="Valor" />
+                <input type="text" placeholder="Categoria" />
+                <button type="submit">Cadastrar</button>
+            </Container>
         </ReactModal>
     );
 }
