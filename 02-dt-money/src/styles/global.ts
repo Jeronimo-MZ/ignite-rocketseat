@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
         --blue: #5429cc;
         --blue-light: #6933ff;
         --text-title: #363f5f;
-        --text-body: #696cb3;
+        --text-body: #969CB2;
         --shape:#ffffff;
 
         @media screen and (max-width: 1000px) {
