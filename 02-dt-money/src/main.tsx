@@ -16,6 +16,28 @@ createServer({
             return schema.create("transaction", data);
         });
     },
+    seeds(server) {
+        server.db.loadData({
+            transactions: [
+                {
+                    id: 1,
+                    title: "Desenvolvimento de Website",
+                    amount: 4000,
+                    type: "deposit",
+                    category: "Development",
+                    createdAt: new Date("2023-01-12 12:30:00"),
+                },
+                {
+                    id: 2,
+                    title: "Aluguel",
+                    amount: 2000,
+                    type: "withdraw",
+                    category: "Casa",
+                    createdAt: new Date("2023-02-01 14:30:00"),
+                },
+            ],
+        });
+    },
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
