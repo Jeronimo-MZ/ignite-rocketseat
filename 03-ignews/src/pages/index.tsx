@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "./home.module.scss";
 import Image from "next/image";
 import girlImage from "@/assets/images/avatar.svg";
+import { SubscribeButton } from "@/components/subscribe-button";
 
 export default function Home() {
     return (
@@ -19,6 +20,7 @@ export default function Home() {
                         Get access to all the publications <br />
                         for <span>$9.90</span>
                     </p>
+                    <SubscribeButton />
                 </section>
                 <Image src={girlImage} alt="Girl coding" />
             </main>
