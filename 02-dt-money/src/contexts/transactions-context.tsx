@@ -1,3 +1,4 @@
+import { transitions } from "polished";
 import {
     createContext,
     PropsWithChildren,
@@ -10,9 +11,12 @@ import { api } from "../services/api";
 
 type ContextProps = {
     transactions: Transaction[];
+    createTransaction: (transaction: TransactionInput) => Promise<void>;
 };
 
 const TransactionsContext = createContext<ContextProps>(undefined as any);
+
+type TransactionInput = Omit<Transaction, "id" | "createdAt">;
 
 export const TransactionsProvider = ({ children }: PropsWithChildren) => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -22,8 +26,18 @@ export const TransactionsProvider = ({ children }: PropsWithChildren) => {
         );
     }, []);
 
+    const createTransaction = async (transaction: TransactionInput) => {
+        const { data } = await api.post<{ transaction: Transaction }>(
+            "transactions",
+            { ...transaction, createdAt: new Date() }
+        );
+        setTransactions((prev) => [data.transaction, ...prev]);
+    };
+
     return (
-        <TransactionsContext.Provider value={{ transactions }}>
+        <TransactionsContext.Provider
+            value={{ transactions, createTransaction }}
+        >
             {children}
         </TransactionsContext.Provider>
     );
@@ -31,7 +45,6 @@ export const TransactionsProvider = ({ children }: PropsWithChildren) => {
 
 export function useTransactions() {
     const context = useContext(TransactionsContext);
-    console.log(context);
     if (!context)
         throw new Error(
             `${useTransactions.name} must be called within a ${TransactionsProvider.name} `
