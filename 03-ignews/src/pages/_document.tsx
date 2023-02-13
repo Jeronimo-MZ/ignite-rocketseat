@@ -14,7 +14,11 @@ export default function Document() {
                     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@900&display=swap"
                     rel="stylesheet"
                 />
-                <link rel="icon" href="/favicon.ico" />
+                <link
+                    rel="shortcut icon"
+                    href="/favicon.png"
+                    type="image/png"
+                />
             </Head>
             <body>
                 <Main />

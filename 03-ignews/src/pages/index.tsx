@@ -7,8 +7,8 @@ export default function Home() {
             <Head>
                 <title>ig.news</title>
             </Head>
-            <main className={styles.main}>
-                <h1>Hello World</h1>
+            <main>
+                <p>Hello World</p>
             </main>
         </>
     );
