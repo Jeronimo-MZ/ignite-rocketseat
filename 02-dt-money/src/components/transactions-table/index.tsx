@@ -20,7 +20,11 @@ export function TransactionsTable() {
                         <tr key={transaction.id}>
                             <td>{transaction.title}</td>
                             <td className={transaction.type}>
-                                {formatMoney(transaction.amount)}
+                                {formatMoney(
+                                    transaction.type === "deposit"
+                                        ? transaction.amount
+                                        : -transaction.amount
+                                )}
                             </td>
                             <td>{transaction.category}</td>
                             <td>{formatDate(transaction.createdAt)}</td>
