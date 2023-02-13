@@ -3,8 +3,17 @@ import styles from "./home.module.scss";
 import Image from "next/image";
 import girlImage from "@/assets/images/avatar.svg";
 import { SubscribeButton } from "@/components/subscribe-button";
+import { GetServerSideProps } from "next";
+import { stripe } from "@/service/stripe";
 
-export default function Home() {
+type HomeProps = {
+    product: {
+        priceId: string;
+        amount: number;
+    };
+};
+
+export default function Home({ product }: HomeProps) {
     return (
         <>
             <Head>
@@ -18,7 +27,7 @@ export default function Home() {
                     </h1>
                     <p>
                         Get access to all the publications <br />
-                        for <span>$9.90</span>
+                        for <span>${product.amount}</span>
                     </p>
                     <SubscribeButton />
                 </section>
@@ -27,3 +36,21 @@ export default function Home() {
         </>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    const price = await stripe.prices.retrieve(
+        "price_1Mb4n1L9GVvoD1e3yxVrE6YB",
+        {
+            expand: ["product"],
+        }
+    );
+    const product = {
+        priceId: price.id,
+        amount: price.unit_amount! / 100,
+    };
+    return {
+        props: {
+            product,
+        },
+    };
+};
