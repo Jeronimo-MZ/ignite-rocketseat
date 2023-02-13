@@ -18,7 +18,7 @@ function App() {
         setIsNewTransactionModalOpen(false);
     };
     return (
-        <>
+        <TransactionsProvider>
             <Header
                 onNewTransactionButtonClick={handleOpenNewTransactionModal}
             />
@@ -28,7 +28,7 @@ function App() {
                 onRequestClose={handleCloseNewTransactionModal}
             />
             <GlobalStyle />
-        </>
+        </TransactionsProvider>
     );
 }
 

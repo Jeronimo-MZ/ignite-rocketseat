@@ -5,16 +5,8 @@ import {
     useEffect,
     useState,
 } from "react";
+import { Transaction } from "../models";
 import { api } from "../services/api";
-
-type Transaction = {
-    id: number;
-    title: string;
-    amount: number;
-    category: string;
-    type: "withdraw" | "deposit";
-    createdAt: string;
-};
 
 type ContextProps = {
     transactions: Transaction[];
