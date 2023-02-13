@@ -1,0 +1,22 @@
+.container {
+    height: 3rem;
+    border-radius: 3rem;
+    background-color: var(--gray-800);
+    border: 0;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+    font-weight: bold;
+    transition: filter 0.2s;
+    gap: 1rem;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover {
+        filter: brightness(0.8);
+    }
+}
