@@ -3,7 +3,7 @@ import { Card, Container } from "./styles";
 import incomeImage from "../../assets/income.svg";
 import outcomeImage from "../../assets/outcome.svg";
 import totalImage from "../../assets/total.svg";
-import { useTransactions } from "../../contexts/transactions-context";
+import { useTransactions } from "../../hooks/use-transactions";
 import { Transaction } from "../../models";
 import { formatMoney } from "../../utils";
 

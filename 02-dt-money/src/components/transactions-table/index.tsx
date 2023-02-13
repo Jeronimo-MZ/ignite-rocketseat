@@ -1,4 +1,4 @@
-import { useTransactions } from "../../contexts/transactions-context";
+import { useTransactions } from "../../hooks/use-transactions";
 import { formatDate, formatMoney } from "../../utils";
 import { Container } from "./styles";
 
