@@ -3,7 +3,6 @@ import logoImg from "@/assets/images/logo.svg";
 
 import styles from "./header.module.scss";
 import { SignInButton } from "../sign-in-button";
-import Link from "next/link";
 import { ActiveLink } from "../active-link";
 
 export function Header() {
