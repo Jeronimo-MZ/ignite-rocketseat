@@ -4,6 +4,7 @@ import logoImg from "@/assets/images/logo.svg";
 import styles from "./header.module.scss";
 import { SignInButton } from "../sign-in-button";
 import Link from "next/link";
+import { ActiveLink } from "../active-link";
 
 export function Header() {
     return (
@@ -11,12 +12,16 @@ export function Header() {
             <div className={styles.headerContent}>
                 <Image src={logoImg} alt="ig.news" />
                 <nav>
-                    <Link href="/" className={styles.active}>
+                    <ActiveLink href="/" activeClassName={styles.active}>
                         Home
-                    </Link>
-                    <Link href="/posts" prefetch>
+                    </ActiveLink>
+                    <ActiveLink
+                        href="/posts"
+                        activeClassName={styles.active}
+                        prefetch
+                    >
                         Posts
-                    </Link>
+                    </ActiveLink>
                 </nav>
                 <SignInButton />
             </div>
