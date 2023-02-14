@@ -4,6 +4,7 @@ import * as PrismicH from "@prismicio/helpers";
 
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import styles from "./styles.module.scss";
 
 type PostsProps = {
@@ -24,7 +25,7 @@ export default function Posts({ posts }: PostsProps) {
             <main className={styles.container}>
                 <div className={styles.posts}>
                     {posts.map((item) => (
-                        <a
+                        <Link
                             key={item.slug}
                             className={styles.post}
                             href={`/posts/${item.slug}`}
@@ -32,7 +33,7 @@ export default function Posts({ posts }: PostsProps) {
                             <time>{item.updatedAt}</time>
                             <strong>{item.title}</strong>
                             <p>{item.excerpt}</p>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </main>
