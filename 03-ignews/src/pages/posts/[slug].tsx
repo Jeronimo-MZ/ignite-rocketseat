@@ -49,25 +49,30 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     const prismic = await getPrismicClient();
 
-    const response = await prismic.getByUID("post", slug);
+    try {
+        const response = await prismic.getByUID("post", slug);
 
-    const post = {
-        slug,
-        title: PrismicH.asText(response.data.title),
-        content: PrismicH.asHTML(response.data.content),
-        updatedAt: new Date(response.first_publication_date).toLocaleDateString(
-            "pt-BR",
-            {
+        const post = {
+            slug,
+            title: PrismicH.asText(response.data.title),
+            content: PrismicH.asHTML(response.data.content),
+            updatedAt: new Date(
+                response.first_publication_date
+            ).toLocaleDateString("pt-BR", {
                 day: "2-digit",
                 month: "long",
                 year: "numeric",
-            }
-        ),
-    };
+            }),
+        };
 
-    return {
-        props: {
-            post,
-        },
-    };
+        return {
+            props: {
+                post,
+            },
+        };
+    } catch {
+        return {
+            notFound: true,
+        };
+    }
 };

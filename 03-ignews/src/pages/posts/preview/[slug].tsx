@@ -62,27 +62,30 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const prismic = await getPrismicClient();
     const slug = params?.slug as string;
+    try {
+        const response = await prismic.getByUID("post", slug);
 
-    const response = await prismic.getByUID("post", slug);
-    console.log({ response, slug });
-
-    const post = {
-        slug,
-        title: PrismicH.asText(response.data.title),
-        content: PrismicH.asHTML(response.data.content.splice(0, 3)),
-        updatedAt: new Date(response.first_publication_date).toLocaleDateString(
-            "pt-BR",
-            {
+        const post = {
+            slug,
+            title: PrismicH.asText(response.data.title),
+            content: PrismicH.asHTML(response.data.content.splice(0, 3)),
+            updatedAt: new Date(
+                response.first_publication_date
+            ).toLocaleDateString("pt-BR", {
                 day: "2-digit",
                 month: "long",
                 year: "numeric",
-            }
-        ),
-    };
+            }),
+        };
 
-    return {
-        props: {
-            post,
-        },
-    };
+        return {
+            props: {
+                post,
+            },
+        };
+    } catch {
+        return {
+            notFound: true,
+        };
+    }
 };
