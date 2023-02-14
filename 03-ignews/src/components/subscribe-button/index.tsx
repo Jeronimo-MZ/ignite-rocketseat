@@ -1,12 +1,17 @@
 import { api } from "@/service/axios";
 import { getStripeJs } from "@/service/stripe-js";
 import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
 export function SubscribeButton() {
-    const { status } = useSession();
+    const { status, data: sessionData } = useSession();
+    const router = useRouter();
     const handleSubscribe = async () => {
         if (status !== "authenticated") return signIn();
-
+        if ((sessionData as any).activeSubscription !== null) {
+            router.push("/posts");
+            return;
+        }
         try {
             const { data } = await api.post("subscribe");
             const { sessionId } = data;
@@ -17,6 +22,7 @@ export function SubscribeButton() {
             alert((err as Error).message);
         }
     };
+
     return (
         <button
             onClick={handleSubscribe}
