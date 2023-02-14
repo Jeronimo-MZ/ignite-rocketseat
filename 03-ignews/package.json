@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@next/font": "13.1.6",
+    "@prismicio/client": "^6.7.3",
+    "@prismicio/helpers": "^2.3.9",
     "@stripe/stripe-js": "^1.46.0",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
