@@ -16,7 +16,7 @@ export function Profile({ showProfileData = true }: ProfileProps) {
                 </Box>
             )}
             <Avatar
-                size="md"
+                size={["sm", "md"]}
                 name="Jerónimo Matavel"
                 src="https://github.com/jeronimo-mz.png"
             />

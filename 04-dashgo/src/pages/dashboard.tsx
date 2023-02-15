@@ -76,10 +76,10 @@ export default function Dashboard() {
                     <SimpleGrid
                         flex="1"
                         gap="4"
-                        minChildWidth="320px"
+                        minChildWidth={["270px", "320px"]}
                         alignSelf="flex-start"
                     >
-                        <Box p="8" bg="gray.800" rounded="md">
+                        <Box p={["4", "8"]} bg="gray.800" rounded="md">
                             <Text fontSize="lg" mb="4">
                                 Inscritos da semana
                             </Text>
