@@ -7,11 +7,6 @@ export default function SignIn() {
         <>
             <Head>
                 <title>SignIn | DashGo</title>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <Flex align="center" justify="center" w="100vw" minH="100vh">
                 <Flex
