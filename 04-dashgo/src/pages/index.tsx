@@ -1,18 +1,12 @@
-import {
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Stack,
-} from "@chakra-ui/react";
+import { Input } from "@/components/form/input";
+import { Button, Flex, FormControl, FormLabel, Stack } from "@chakra-ui/react";
 import Head from "next/head";
 
-export default function Home() {
+export default function SignIn() {
     return (
         <>
             <Head>
-                <title>DashGo</title>
+                <title>SignIn | DashGo</title>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
@@ -30,30 +24,18 @@ export default function Home() {
                     rounded="md"
                 >
                     <Stack spacing="4">
-                        <FormControl>
-                            <FormLabel>E-mail</FormLabel>
-                            <Input
-                                type="email"
-                                focusBorderColor="pink.500"
-                                bg="gray.900"
-                                variant="filled"
-                                _hover={{ bg: "gray.900" }}
-                                size="lg"
-                                placeholder="john@example.com"
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Password</FormLabel>
-                            <Input
-                                type="password"
-                                focusBorderColor="pink.500"
-                                bg="gray.900"
-                                variant="filled"
-                                _hover={{ bg: "gray.900" }}
-                                size="lg"
-                                placeholder="********"
-                            />
-                        </FormControl>
+                        <Input
+                            name="email"
+                            label="E-mail"
+                            type="email"
+                            placeholder="john@example.com"
+                        />
+                        <Input
+                            label="Password"
+                            name="password"
+                            type="password"
+                            placeholder="********"
+                        />
                     </Stack>
                     <Button type="submit" mt="6" colorScheme="pink">
                         Entrar
