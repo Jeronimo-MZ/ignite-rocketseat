@@ -1,7 +1,9 @@
 import { Header } from "@/components/header";
 import { Pagination } from "@/components/pagination";
 import { Sidebar } from "@/components/sidebar";
+import { api } from "@/services/api";
 import { useUsers } from "@/services/hooks/use-users";
+import { queryClient } from "@/services/query-client";
 import {
     Box,
     Button,
@@ -9,6 +11,7 @@ import {
     Flex,
     Heading,
     Icon,
+    Link,
     Spinner,
     Table,
     TableContainer,
@@ -19,6 +22,7 @@ import {
     Thead,
     Tr,
     useBreakpointValue,
+    useQuery,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import NextLink from "next/link";
@@ -29,6 +33,19 @@ export default function UsersList() {
     const isWideVersion = useBreakpointValue({ base: false, lg: true });
     const [page, setPage] = useState(1);
     const { data, error, isLoading, isRefetching } = useUsers(page);
+
+    async function handlePrefetchUser(userId: string) {
+        return queryClient.prefetchQuery(
+            ["user", userId],
+            async () => {
+                const { data } = await api.get(`/users/${userId}`);
+                return data;
+            },
+            {
+                staleTime: 1000 * 60 * 10, // 10 minutes
+            }
+        );
+    }
 
     return (
         <>
@@ -98,9 +115,18 @@ export default function UsersList() {
                                                     </Td>
                                                     <Td>
                                                         <Box>
-                                                            <Text fontWeight="bold">
-                                                                {user.name}
-                                                            </Text>
+                                                            <Link
+                                                                color="purple.400"
+                                                                onMouseOver={() =>
+                                                                    handlePrefetchUser(
+                                                                        user.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <Text fontWeight="bold">
+                                                                    {user.name}
+                                                                </Text>
+                                                            </Link>
                                                             <Text
                                                                 fontSize="sm"
                                                                 color="gray.300"

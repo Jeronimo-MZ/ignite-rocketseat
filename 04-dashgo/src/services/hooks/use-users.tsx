@@ -42,6 +42,6 @@ export function useUsers(page: number) {
         queryFn: async () => {
             return await getUsers(page);
         },
-        staleTime: 5 * 1000, // 5 seconds,
+        staleTime: 1000 * 60 * 10, // 10 minutes
     });
 }

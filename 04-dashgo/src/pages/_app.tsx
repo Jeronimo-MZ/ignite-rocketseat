@@ -5,8 +5,7 @@ import { SidebarDrawerProvider } from "@/contexts/sidebar-drawer-context";
 import { makeServer } from "@/services/mirage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const queryClient = new QueryClient();
+import { queryClient } from "@/services/query-client";
 
 if (process.env.NODE_ENV === "development") {
     makeServer();
