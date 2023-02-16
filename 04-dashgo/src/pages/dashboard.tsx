@@ -15,6 +15,11 @@ const options = {
             enabled: true,
         },
         foreColor: theme.colors.gray[500],
+        events: {
+            mounted: (chart: any) => {
+                chart.windowResizeHandler();
+            },
+        },
     },
     grid: {
         show: false,

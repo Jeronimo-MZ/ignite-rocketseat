@@ -12,6 +12,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
+import NextLink from "next/link";
 
 export default function CreateUser() {
     return (
@@ -62,7 +63,11 @@ export default function CreateUser() {
                         </VStack>
                         <Flex align="center" justify="flex-end" mt="8">
                             <HStack spacing="4">
-                                <Button colorScheme="whiteAlpha">
+                                <Button
+                                    colorScheme="whiteAlpha"
+                                    as={NextLink}
+                                    href="/users"
+                                >
                                     Cancelar
                                 </Button>
                                 <Button colorScheme="pink">Salvar</Button>

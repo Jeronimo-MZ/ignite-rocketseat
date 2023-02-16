@@ -19,6 +19,7 @@ import {
     useBreakpointValue,
 } from "@chakra-ui/react";
 import Head from "next/head";
+import NextLink from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 
 export default function UsersList() {
@@ -39,7 +40,8 @@ export default function UsersList() {
                                 Usuários
                             </Heading>
                             <Button
-                                as="a"
+                                as={NextLink}
+                                href="/users/create"
                                 size="sm"
                                 fontSize="sm"
                                 colorScheme="pink"
