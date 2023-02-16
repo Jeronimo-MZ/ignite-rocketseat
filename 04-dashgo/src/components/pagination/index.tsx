@@ -56,7 +56,10 @@ export function Pagination({
             <HStack spacing="2">
                 {currentPage > 1 + siblingCount && (
                     <>
-                        <PaginationItem number={1} />
+                        <PaginationItem
+                            number={1}
+                            onPageChange={onPageChange}
+                        />
                         {currentPage > 2 + siblingCount && (
                             <Text color="gray.300" width="8" textAlign="center">
                                 ...
@@ -65,11 +68,23 @@ export function Pagination({
                     </>
                 )}
                 {previousPages.map((page) => (
-                    <PaginationItem number={page} key={page} />
+                    <PaginationItem
+                        number={page}
+                        key={page}
+                        onPageChange={onPageChange}
+                    />
                 ))}
-                <PaginationItem number={currentPage} isCurrent />
+                <PaginationItem
+                    number={currentPage}
+                    isCurrent
+                    onPageChange={onPageChange}
+                />
                 {nextPages.map((page) => (
-                    <PaginationItem number={page} key={page} />
+                    <PaginationItem
+                        number={page}
+                        key={page}
+                        onPageChange={onPageChange}
+                    />
                 ))}
                 {currentPage + siblingCount < lastPage && (
                     <>
@@ -78,7 +93,10 @@ export function Pagination({
                                 ...
                             </Text>
                         )}
-                        <PaginationItem number={lastPage} />
+                        <PaginationItem
+                            number={lastPage}
+                            onPageChange={onPageChange}
+                        />
                     </>
                 )}
             </HStack>

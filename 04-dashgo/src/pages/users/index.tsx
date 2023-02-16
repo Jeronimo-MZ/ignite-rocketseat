@@ -22,11 +22,13 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import NextLink from "next/link";
+import { useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 
 export default function UsersList() {
     const isWideVersion = useBreakpointValue({ base: false, lg: true });
-    const { data, error, isLoading, isRefetching } = useUsers();
+    const [page, setPage] = useState(1);
+    const { data, error, isLoading, isRefetching } = useUsers(page);
 
     return (
         <>
@@ -85,7 +87,7 @@ export default function UsersList() {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            {data?.map((user) => (
+                                            {data?.users.map((user) => (
                                                 <Tr key={user.id}>
                                                     <Td
                                                         px={["4", "4", "6"]}
@@ -136,9 +138,9 @@ export default function UsersList() {
                                     </Table>
                                 </TableContainer>
                                 <Pagination
-                                    onPageChange={() => {}}
-                                    totalCountOfEntries={200}
-                                    currentPage={19}
+                                    totalCountOfEntries={data?.totalCount ?? 0}
+                                    onPageChange={setPage}
+                                    currentPage={page}
                                 />
                             </>
                         )}
