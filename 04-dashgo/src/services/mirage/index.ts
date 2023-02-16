@@ -1,5 +1,11 @@
 import { faker } from "@faker-js/faker";
-import { createServer, Factory, Model, Response } from "miragejs";
+import {
+    ActiveModelSerializer,
+    createServer,
+    Factory,
+    Model,
+    Response,
+} from "miragejs";
 
 type User = {
     name: string;
@@ -9,6 +15,9 @@ type User = {
 
 export const makeServer = () => {
     const server = createServer({
+        serializers: {
+            application: ActiveModelSerializer,
+        },
         models: {
             user: Model.extend<Partial<User>>({}),
         },
@@ -37,10 +46,12 @@ export const makeServer = () => {
                 const pageStart = (Number(page) - 1) * Number(perPage);
                 const pageEnd = pageStart + Number(perPage);
                 // @ts-expect-error
-                const users = this.serialize(schema.all("user")).users.slice(
-                    pageStart,
-                    pageEnd
-                );
+                const users = this.serialize(schema.all("user"))
+                    .users.sort(
+                        (a: any, b: any) =>
+                            Number(a.created_at) - Number(b.created_at)
+                    )
+                    .slice(pageStart, pageEnd);
                 return new Response(
                     200,
                     { "x-total-count": String(total) },
