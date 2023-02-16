@@ -1,3 +1,4 @@
+import { api } from "@/services/api";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 type SignInCredentials = {
@@ -12,10 +13,15 @@ type AuthContextData = {
 const AuthContext = createContext({} as AuthContextData);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated] = useState(false);
 
     const signIn = async ({ email, password }: SignInCredentials) => {
-        console.log({ email, password });
+        try {
+            const response = await api.post("/sessions", { email, password });
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <AuthContext.Provider value={{ signIn, isAuthenticated }}>
