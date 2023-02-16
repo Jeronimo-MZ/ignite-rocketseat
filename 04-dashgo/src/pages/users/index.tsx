@@ -23,6 +23,7 @@ import Head from "next/head";
 import NextLink from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "@/services/api";
 
 type User = {
     id: string;
@@ -36,8 +37,7 @@ export default function UsersList() {
     const { data, error, isLoading, isRefetching } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const response = await fetch("http://localhost:3000/api/users");
-            const data = await response.json();
+            const { data } = await api.get("users");
             const users = data.users.map((user: User) => {
                 return {
                     id: user.id,
