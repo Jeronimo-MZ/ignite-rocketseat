@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { Pagination } from "@/components/pagination";
 import { Sidebar } from "@/components/sidebar";
+import { useUsers } from "@/services/hooks/use-users";
 import {
     Box,
     Button,
@@ -22,41 +23,10 @@ import {
 import Head from "next/head";
 import NextLink from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "@/services/api";
-
-type User = {
-    id: string;
-    name: string;
-    email: string;
-    createdAt: string;
-};
 
 export default function UsersList() {
     const isWideVersion = useBreakpointValue({ base: false, lg: true });
-    const { data, error, isLoading, isRefetching } = useQuery({
-        queryKey: ["users"],
-        queryFn: async () => {
-            const { data } = await api.get("users");
-            const users = data.users.map((user: User) => {
-                return {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    createdAt: new Date(user.createdAt).toLocaleDateString(
-                        "pt-BR",
-                        {
-                            day: "2-digit",
-                            month: "long",
-                            year: "numeric",
-                        }
-                    ),
-                };
-            });
-            return users;
-        },
-        staleTime: 5 * 1000, // 5 seconds,
-    });
+    const { data, error, isLoading, isRefetching } = useUsers();
 
     return (
         <>
@@ -115,7 +85,7 @@ export default function UsersList() {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            {data.map((user: User) => (
+                                            {data?.map((user) => (
                                                 <Tr key={user.id}>
                                                     <Td
                                                         px={["4", "4", "6"]}
