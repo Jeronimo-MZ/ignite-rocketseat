@@ -9,17 +9,20 @@ import {
     Heading,
     Icon,
     Table,
+    TableContainer,
     Tbody,
     Td,
     Text,
     Th,
     Thead,
     Tr,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 
 export default function UsersList() {
+    const isWideVersion = useBreakpointValue({ base: false, lg: true });
     return (
         <>
             <Head>
@@ -45,114 +48,69 @@ export default function UsersList() {
                                 Criar Novo
                             </Button>
                         </Flex>
-
-                        <Table colorScheme="whiteAlpha">
-                            <Thead>
-                                <Tr>
-                                    <Th px="6" color="gray.300" width="8">
-                                        <Checkbox colorScheme="pink" />
-                                    </Th>
-                                    <Th>Usuário</Th>
-                                    <Th>Data de Cadastro</Th>
-                                    <Th width="8"></Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                <Tr>
-                                    <Td px="6" color="gray.300" width="8">
-                                        <Checkbox colorScheme="pink" />
-                                    </Td>
-                                    <Td>
-                                        <Box>
-                                            <Text fontWeight="bold">
-                                                Jerónimo Matavel
-                                            </Text>
-                                            <Text
-                                                fontSize="sm"
-                                                color="gray.300"
-                                            >
-                                                mataveljeronimo@gmail.com
-                                            </Text>
-                                        </Box>
-                                    </Td>
-                                    <Td>12 de Fevereiro de 2023</Td>
-                                    <Td>
-                                        <Button
-                                            size="sm"
-                                            fontSize="sm"
-                                            colorScheme="purple"
-                                            leftIcon={
-                                                <Icon as={RiPencilLine} />
-                                            }
+                        <TableContainer>
+                            <Table colorScheme="whiteAlpha">
+                                <Thead>
+                                    <Tr>
+                                        <Th
+                                            px={["4", "4", "6"]}
+                                            color="gray.300"
+                                            width="8"
                                         >
-                                            Editar
-                                        </Button>
-                                    </Td>
-                                </Tr>
-                                <Tr>
-                                    <Td px="6" color="gray.300" width="8">
-                                        <Checkbox colorScheme="pink" />
-                                    </Td>
-                                    <Td>
-                                        <Box>
-                                            <Text fontWeight="bold">
-                                                Jerónimo Matavel
-                                            </Text>
-                                            <Text
-                                                fontSize="sm"
-                                                color="gray.300"
-                                            >
-                                                mataveljeronimo@gmail.com
-                                            </Text>
-                                        </Box>
-                                    </Td>
-                                    <Td>12 de Fevereiro de 2023</Td>
-                                    <Td>
-                                        <Button
-                                            size="sm"
-                                            fontSize="sm"
-                                            colorScheme="purple"
-                                            leftIcon={
-                                                <Icon as={RiPencilLine} />
-                                            }
+                                            <Checkbox colorScheme="pink" />
+                                        </Th>
+                                        <Th>Usuário</Th>
+                                        {isWideVersion && (
+                                            <Th>Data de Cadastro</Th>
+                                        )}
+                                        {isWideVersion && <Th width="8"></Th>}
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    <Tr>
+                                        <Td
+                                            px={["4", "4", "6"]}
+                                            color="gray.300"
+                                            width="8"
                                         >
-                                            Editar
-                                        </Button>
-                                    </Td>
-                                </Tr>
-                                <Tr>
-                                    <Td px="6" color="gray.300" width="8">
-                                        <Checkbox colorScheme="pink" />
-                                    </Td>
-                                    <Td>
-                                        <Box>
-                                            <Text fontWeight="bold">
-                                                Jerónimo Matavel
-                                            </Text>
-                                            <Text
-                                                fontSize="sm"
-                                                color="gray.300"
-                                            >
-                                                mataveljeronimo@gmail.com
-                                            </Text>
-                                        </Box>
-                                    </Td>
-                                    <Td>12 de Fevereiro de 2023</Td>
-                                    <Td>
-                                        <Button
-                                            size="sm"
-                                            fontSize="sm"
-                                            colorScheme="purple"
-                                            leftIcon={
-                                                <Icon as={RiPencilLine} />
-                                            }
-                                        >
-                                            Editar
-                                        </Button>
-                                    </Td>
-                                </Tr>
-                            </Tbody>
-                        </Table>
+                                            <Checkbox colorScheme="pink" />
+                                        </Td>
+                                        <Td>
+                                            <Box>
+                                                <Text fontWeight="bold">
+                                                    Jerónimo Matavel
+                                                </Text>
+                                                <Text
+                                                    fontSize="sm"
+                                                    color="gray.300"
+                                                >
+                                                    mataveljeronimo@gmail.com
+                                                </Text>
+                                            </Box>
+                                        </Td>
+                                        {isWideVersion && (
+                                            <Td>12 de Fevereiro de 2023</Td>
+                                        )}
+                                        {isWideVersion && (
+                                            <Td>
+                                                <Button
+                                                    size="sm"
+                                                    fontSize="sm"
+                                                    colorScheme="purple"
+                                                    leftIcon={
+                                                        <Icon
+                                                            as={RiPencilLine}
+                                                        />
+                                                    }
+                                                >
+                                                    Editar
+                                                </Button>
+                                            </Td>
+                                        )}
+                                    </Tr>
+                                </Tbody>
+                            </Table>
+                        </TableContainer>
                         <Pagination />
                     </Box>
                 </Flex>
