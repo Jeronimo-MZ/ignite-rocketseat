@@ -33,7 +33,7 @@ type User = {
 
 export default function UsersList() {
     const isWideVersion = useBreakpointValue({ base: false, lg: true });
-    const { data, error, isLoading } = useQuery({
+    const { data, error, isLoading, isRefetching } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
             const response = await fetch("http://localhost:3000/api/users");
@@ -55,6 +55,7 @@ export default function UsersList() {
             });
             return users;
         },
+        staleTime: 5 * 1000, // 5 seconds,
     });
 
     return (
@@ -70,7 +71,7 @@ export default function UsersList() {
                     <Box flex="1" rounded="md" bg="gray.800" p="8">
                         <Flex mb="8" justify="space-between" align="center">
                             <Heading fontWeight="normal" size="lg">
-                                Usuários
+                                Usuários {isRefetching && <Spinner />}
                             </Heading>
                             <Button
                                 as={NextLink}
