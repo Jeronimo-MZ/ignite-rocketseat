@@ -4,10 +4,11 @@ import { setupApiClient } from "@/services/api";
 import { withSSRAuth } from "@/utils/with-ssr-auth";
 
 export default function Dashboard() {
-    const { user } = useAuth();
+    const { user, signOut } = useAuth();
 
     return (
         <>
+            <button onClick={() => signOut()}>SignOut</button>
             <h1>Dashboard: {user?.email}</h1>
             <Can permissions={["metrics.list"]}>
                 <p>Métricas</p>

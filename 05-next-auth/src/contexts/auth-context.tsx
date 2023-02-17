@@ -15,7 +15,8 @@ type SignInCredentials = {
     password: string;
 };
 type AuthContextData = {
-    signIn(credentials: SignInCredentials): Promise<void>;
+    signIn: (credentials: SignInCredentials) => Promise<void>;
+    signOut: () => void;
     isAuthenticated: boolean;
     user: User | null;
 };
@@ -28,9 +29,11 @@ type User = {
     roles: string[];
 };
 
+let authChannel: BroadcastChannel;
 export function signOut() {
     destroyCookie(undefined, "next-auth.token");
     destroyCookie(undefined, "next-auth.refresh-token");
+    authChannel.postMessage("signOut");
     Router.push("/");
 }
 
@@ -38,6 +41,23 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
     const isAuthenticated = !!user;
     const router = useRouter();
+
+    useEffect(() => {
+        authChannel = new BroadcastChannel("auth-channel");
+        authChannel.onmessage = (message) => {
+            if (message.data === "signOut") {
+                destroyCookie(undefined, "next-auth.token");
+                destroyCookie(undefined, "next-auth.refresh-token");
+                Router.push("/");
+            } else if (message.data === "signIn") {
+                Router.push("/dashboard");
+            }
+        };
+
+        return () => {
+            authChannel.close();
+        };
+    }, []);
 
     useEffect(() => {
         const { "next-auth.token": token } = parseCookies();
@@ -70,13 +90,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
                 path: "/",
             });
             api.defaults.headers["Authorization"] = `Bearer ${token}`;
+            authChannel.postMessage("signIn");
             router.push("/dashboard");
         } catch (error) {
             console.log(error);
         }
     };
     return (
-        <AuthContext.Provider value={{ signIn, isAuthenticated, user }}>
+        <AuthContext.Provider
+            value={{ signIn, isAuthenticated, user, signOut }}
+        >
             {children}
         </AuthContext.Provider>
     );
