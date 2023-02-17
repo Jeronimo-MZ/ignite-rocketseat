@@ -1,3 +1,4 @@
+import { signOut } from "@/contexts/auth-context";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { parseCookies, setCookie } from "nookies";
 
@@ -77,7 +78,8 @@ api.interceptors.response.use(
                 });
             });
         } else {
-            // logout;
+            signOut();
         }
+        return Promise.reject(error);
     }
 );

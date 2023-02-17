@@ -1,5 +1,6 @@
 import { api } from "@/services/api";
 import { useRouter } from "next/router";
+import Router from "next/router";
 import {
     createContext,
     PropsWithChildren,
@@ -7,7 +8,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import { setCookie, parseCookies } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 
 type SignInCredentials = {
     email: string;
@@ -26,6 +27,13 @@ type User = {
     permissions: string[];
     roles: string[];
 };
+
+export function signOut() {
+    destroyCookie(undefined, "next-auth.token");
+    destroyCookie(undefined, "next-auth.refresh-token");
+    Router.push("/");
+}
+
 export const AuthProvider = ({ children }: PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
     const isAuthenticated = !!user;
@@ -34,12 +42,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     useEffect(() => {
         const { "next-auth.token": token } = parseCookies();
         if (token) {
-            api.get("/me").then(({ data }) => {
-                const { email, permissions, roles } = data;
-                setUser({ email, permissions, roles });
-            });
+            api.get("/me")
+                .then(({ data }) => {
+                    const { email, permissions, roles } = data;
+                    setUser({ email, permissions, roles });
+                })
+                .catch(() => {
+                    signOut();
+                });
         }
-    }, []);
+    }, [router]);
 
     const signIn = async ({ email, password }: SignInCredentials) => {
         try {
