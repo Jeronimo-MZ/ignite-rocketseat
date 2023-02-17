@@ -1,7 +1,13 @@
 import { api } from "@/services/api";
 import { useRouter } from "next/router";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { setCookie } from "nookies";
+import {
+    createContext,
+    PropsWithChildren,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
+import { setCookie, parseCookies } from "nookies";
 
 type SignInCredentials = {
     email: string;
@@ -25,6 +31,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const isAuthenticated = !!user;
     const router = useRouter();
 
+    useEffect(() => {
+        const { "next-auth.token": token } = parseCookies();
+        if (token) {
+            api.get("/me").then(({ data }) => {
+                const { email, permissions, roles } = data;
+                setUser({ email, permissions, roles });
+            });
+        }
+    }, []);
+
     const signIn = async ({ email, password }: SignInCredentials) => {
         try {
             const response = await api.post("/sessions", {
@@ -41,6 +57,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
                 maxAge: 60 * 60 * 24 * 30,
                 path: "/",
             });
+            api.defaults.headers["Authorization"] = `Bearer ${token}`;
             router.push("/dashboard");
         } catch (error) {
             console.log(error);
