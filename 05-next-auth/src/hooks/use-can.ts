@@ -5,19 +5,16 @@ type UseCanParams = {
     roles?: string[];
 };
 
-export function useCan({
-    permissions = [],
-    roles = [],
-}: UseCanParams): boolean {
+export function useCan({ permissions, roles }: UseCanParams): boolean {
     const { user, isAuthenticated } = useAuth();
     if (!isAuthenticated) return false;
 
-    const hasAtLeastOnePermission = roles.some((role) =>
-        user?.roles.includes(role)
-    );
-    const hasAllPermissions = permissions.every((permission) =>
+    const hasAtLeastOneRole = roles?.some((role) => user?.roles.includes(role));
+    if (roles && !hasAtLeastOneRole) return false;
+    const hasAllPermissions = permissions?.every((permission) =>
         user?.permissions.includes(permission)
     );
+    if (permissions && !hasAllPermissions) return false;
 
-    return hasAllPermissions && hasAtLeastOnePermission;
+    return true;
 }
