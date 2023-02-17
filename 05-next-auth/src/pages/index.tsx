@@ -4,6 +4,13 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import { FormEvent, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
+import {
+    GetServerSideProps,
+    GetServerSidePropsContext,
+    GetStaticPathsResult,
+} from "next";
+import { parseCookies } from "nookies";
+import { withSSRGuest } from "@/utils/with-ssr-guest";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,3 +55,9 @@ export default function Home() {
         </>
     );
 }
+
+export const getServerSideProps = withSSRGuest(async (ctx) => {
+    return {
+        props: {},
+    };
+});
