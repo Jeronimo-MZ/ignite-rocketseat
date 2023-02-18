@@ -1,6 +1,6 @@
 import { SearchResults } from "@/components/search-results";
 import Head from "next/head";
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 
 export default function Home() {
     const [search, setSearch] = useState("");
@@ -14,6 +14,11 @@ export default function Home() {
         const data = await response.json();
         setResults(data);
     };
+
+    const addToWishlist = useCallback((id: number) => {
+        console.log(id);
+    }, []);
+
     return (
         <>
             <Head>
@@ -38,7 +43,10 @@ export default function Home() {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <button type="submit">Buscar</button>
-                    <SearchResults results={results} />
+                    <SearchResults
+                        results={results}
+                        onAddToWishlist={addToWishlist}
+                    />
                 </form>
             </div>
         </>
