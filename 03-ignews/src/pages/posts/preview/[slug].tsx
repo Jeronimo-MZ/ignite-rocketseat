@@ -23,7 +23,7 @@ export default function PostPreview({ post }: PostProps) {
     useEffect(() => {
         if (
             session.status === "authenticated" &&
-            (session.data as any).activeSubscription !== null
+            !!(session.data as any).activeSubscription
         ) {
             router.push(`/posts/${post.slug}`);
         }
@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             title: PrismicH.asText(response.data.title),
             content: PrismicH.asHTML(response.data.content.splice(0, 3)),
             updatedAt: new Date(
-                response.first_publication_date
+                response.last_publication_date
             ).toLocaleDateString("pt-BR", {
                 day: "2-digit",
                 month: "long",

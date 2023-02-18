@@ -1,4 +1,4 @@
-import Post, { getServerSideProps } from "@/pages/posts/[slug]";
+import PostPreview, { getStaticProps } from "@/pages/posts/preview/[slug]";
 import { getPrismicClient } from "@/service/prismic";
 import { faker } from "@faker-js/faker";
 import { render, screen } from "@testing-library/react";
@@ -20,28 +20,30 @@ jest.mock("next/router", () => ({
 
 describe("Post", () => {
     it("should render correctly", () => {
-        render(<Post post={post} />);
+        jest.mocked(useSession).mockReturnValueOnce({
+            data: null,
+            status: "unauthenticated",
+        });
+        render(<PostPreview post={post} />);
         expect(screen.getByText(post.title)).toBeInTheDocument();
         expect(screen.getByText(post.content)).toBeInTheDocument();
         expect(screen.getByText(post.updatedAt)).toBeInTheDocument();
+        expect(screen.getByText("Wanna continue reading?")).toBeInTheDocument();
     });
 
-    it("should redirect user if user has no subscription", async () => {
-        jest.mocked(getSession).mockResolvedValueOnce({
-            expires: "",
-            user: {},
-        } as any);
-        const result = await getServerSideProps({
-            params: {
-                slug: post.slug,
-            },
-        } as any);
-        expect(result).toEqual({
-            redirect: {
-                destination: `/posts/preview/${post.slug}`,
-                permanent: false,
-            },
+    it("should redirect user to full post if user already have a subscription", async () => {
+        jest.mocked(useSession).mockReturnValueOnce({
+            data: {
+                expires: "",
+                user: {},
+                activeSubscription: "FAKE_SUB",
+            } as any,
+            status: "authenticated",
         });
+        const pushMock = jest.fn();
+        jest.mocked(useRouter).mockReturnValueOnce({ push: pushMock } as any);
+        render(<PostPreview post={post} />);
+        expect(pushMock).toHaveBeenCalledWith(`/posts/${post.slug}`);
     });
 
     it("should load initial data", async () => {
@@ -58,7 +60,22 @@ describe("Post", () => {
                     content: [
                         {
                             type: "paragraph",
-                            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            text: "Lorem",
+                            spans: [],
+                        },
+                        {
+                            type: "paragraph",
+                            text: "ipsum",
+                            spans: [],
+                        },
+                        {
+                            type: "paragraph",
+                            text: "dolor",
+                            spans: [],
+                        },
+                        {
+                            type: "paragraph",
+                            text: "sit amet",
                             spans: [],
                         },
                     ],
@@ -66,7 +83,7 @@ describe("Post", () => {
                 last_publication_date: "2023-02-18T12:00+02:00",
             }),
         } as any);
-        const result = await getServerSideProps({
+        const result = await getStaticProps({
             params: { slug: post.slug },
         } as any);
         expect(result).toEqual({
@@ -74,8 +91,7 @@ describe("Post", () => {
                 post: {
                     slug: post.slug,
                     title: "My new Post",
-                    content:
-                        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
+                    content: "<p>Lorem</p><p>ipsum</p><p>dolor</p>",
                     updatedAt: "18 de fevereiro de 2023",
                 },
             },
@@ -91,7 +107,7 @@ describe("Post", () => {
         jest.mocked(getPrismicClient).mockResolvedValueOnce({
             getByUID: jest.fn().mockRejectedValueOnce(new Error()),
         } as any);
-        const result = await getServerSideProps({
+        const result = await getStaticProps({
             params: { slug: post.slug },
         } as any);
         expect(result).toEqual({
