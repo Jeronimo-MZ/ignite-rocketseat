@@ -83,4 +83,21 @@ describe("Post", () => {
             },
         });
     });
+
+    it("should return 404 if getByUID rejects", async () => {
+        jest.mocked(getSession).mockResolvedValueOnce({
+            expires: "",
+            user: {},
+            activeSubscription: "FAKE_SUB",
+        } as any);
+        jest.mocked(getPrismicClient).mockResolvedValueOnce({
+            getByUID: jest.fn().mockRejectedValueOnce(new Error()),
+        } as any);
+        const result = await getServerSideProps({
+            params: { slug: post.slug },
+        } as any);
+        expect(result).toEqual({
+            notFound: true,
+        });
+    });
 });

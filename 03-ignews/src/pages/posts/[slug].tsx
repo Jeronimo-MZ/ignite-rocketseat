@@ -70,8 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({
                 post,
             },
         };
-    } catch (error) {
-        console.log(error);
+    } catch {
         return {
             notFound: true,
         };
