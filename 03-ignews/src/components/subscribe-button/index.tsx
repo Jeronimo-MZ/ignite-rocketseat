@@ -8,7 +8,7 @@ export function SubscribeButton() {
     const router = useRouter();
     const handleSubscribe = async () => {
         if (status !== "authenticated") return signIn();
-        if ((sessionData as any).activeSubscription !== null) {
+        if (!!(sessionData as any).activeSubscription) {
             router.push("/posts");
             return;
         }
