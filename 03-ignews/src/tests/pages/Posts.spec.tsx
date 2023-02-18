@@ -1,6 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { render, screen } from "@testing-library/react";
-import Posts from "@/pages/posts";
+import Posts, { getStaticProps } from "@/pages/posts";
+import { getPrismicClient } from "@/service/prismic";
+
+jest.mock("@/service/prismic");
 
 const generatePosts = (amount = 5) => {
     const posts = [];
@@ -22,5 +25,41 @@ describe("Posts page", () => {
         for (let post of posts) {
             expect(screen.getByText(post.title)).toBeInTheDocument();
         }
+    });
+
+    it("should load initial data", async () => {
+        jest.mocked(getPrismicClient).mockResolvedValueOnce({
+            get: jest.fn().mockResolvedValueOnce({
+                results: [
+                    {
+                        uid: "my-new-post",
+                        data: {
+                            title: [{ type: "heading", text: "My new Post" }],
+                            content: [
+                                {
+                                    type: "paragraph",
+                                    text: "lorem ipsum dolor sit amet",
+                                },
+                            ],
+                        },
+                        last_publication_date: "2023-02-18T12:00+02:00",
+                    },
+                ],
+            }),
+        } as any);
+
+        const result = await getStaticProps({});
+        expect(result).toMatchObject({
+            props: {
+                posts: [
+                    {
+                        slug: "my-new-post",
+                        title: "My new Post",
+                        excerpt: "lorem ipsum dolor sit amet",
+                        updatedAt: "18 de fevereiro de 2023",
+                    },
+                ],
+            },
+        });
     });
 });

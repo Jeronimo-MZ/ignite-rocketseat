@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps = async () => {
             post.data.content.find(
                 (content: { type: string }) => content.type === "paragraph"
             )?.text ?? "",
-        updatedAt: new Date(post.first_publication_date).toLocaleDateString(
+        updatedAt: new Date(post.last_publication_date).toLocaleDateString(
             "pt-BR",
             {
                 day: "2-digit",
