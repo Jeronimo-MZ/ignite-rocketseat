@@ -15,4 +15,9 @@ module.exports = {
         "@/(.*)": "<rootDir>/src/$1",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    collectCoverageFrom: [
+        "<rootDir>/src/**/*.tsx",
+        "!<rootDir>/src/**/*.spec.tsx",
+    ],
+    coverageReporters: ["lcov"],
 };
