@@ -9,7 +9,7 @@ export function SignInButton() {
     if (isUserLoggedIn) {
         return (
             <button className={styles.container} onClick={() => signOut()}>
-                <FaGithub color="#04d361" /> Jerónimo Matavel
+                <FaGithub color="#04d361" /> {data?.user?.name}
                 <FiX />
             </button>
         );
