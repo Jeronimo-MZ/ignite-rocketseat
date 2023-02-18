@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "yarn jest",
+    "test:watch": "yarn jest --watch"
   },
   "dependencies": {
     "@next/font": "13.1.6",
@@ -21,6 +23,7 @@
     "eslint-config-next": "13.1.6",
     "faunadb": "^4.7.1",
     "html-react-parser": "^3.0.9",
+    "jest-environment-jsdom": "^29.4.3",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
     "react": "18.2.0",
