@@ -3,7 +3,7 @@ import styles from "./home.module.scss";
 import Image from "next/image";
 import girlImage from "@/assets/images/avatar.svg";
 import { SubscribeButton } from "@/components/subscribe-button";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { stripe } from "@/service/stripe";
 
 type HomeProps = {
