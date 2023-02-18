@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({
             title: PrismicH.asText(response.data.title),
             content: PrismicH.asHTML(response.data.content),
             updatedAt: new Date(
-                response.first_publication_date
+                response.last_publication_date
             ).toLocaleDateString("pt-BR", {
                 day: "2-digit",
                 month: "long",
@@ -70,7 +70,8 @@ export const getServerSideProps: GetServerSideProps = async ({
                 post,
             },
         };
-    } catch {
+    } catch (error) {
+        console.log(error);
         return {
             notFound: true,
         };
